@@ -49,7 +49,7 @@
 #include <stdlib.h> /* labs() function */
 
 #include "deviation_history.h"
-#include "more_than_half.h"
+#include "deviation_average.h"
 
 /*
  * Called on every reference event.
