@@ -67,7 +67,7 @@
  *   synchronized because of the network delays.
  */
 long
-more_than_half_do_sync(struct sync *s, long deviation)
+deviation_average_calculate(struct deviation_average *s, long deviation)
 {
 	long tail_deviation;
 
@@ -106,9 +106,9 @@ more_than_half_do_sync(struct sync *s, long deviation)
 }
 
 int
-more_than_half_reset(struct sync *s, void *history_addr,
-                     unsigned int history_size,
-                     unsigned long allowed_deviation)
+deviation_average_reset(struct deviation_average *s, void *history_addr,
+                        unsigned int history_size,
+                        unsigned long allowed_deviation)
 {
 	deviation_history_reset(&s->deviation_history, history_addr,
 	                        history_size);

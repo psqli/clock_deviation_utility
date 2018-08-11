@@ -16,12 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MORE_THAN_HALF_H
-#define MORE_THAN_HALF_H
+#ifndef DEVIATION_AVERAGE_H
+#define DEVIATION_AVERAGE_H
 
 #include "deviation_history.h"
 
-struct sync {
+struct deviation_average {
 	/* history of the last N deviations */
 	struct deviation_history deviation_history;
 
@@ -49,11 +49,11 @@ struct sync {
 };
 
 long
-more_than_half_do_sync(struct sync *s, long deviation);
+deviation_average_calculate(struct deviation_average *s, long deviation);
 
 int
-more_than_half_reset(struct sync *s, void *history_addr,
-                     unsigned int history_size,
-                     unsigned long allowed_deviation);
+deviation_average_reset(struct deviation_average *s, void *history_addr,
+                        unsigned int history_size,
+                        unsigned long allowed_deviation);
 
-#endif /* MORE_THAN_HALF_H */
+#endif /* DEVIATION_AVERAGE_H */
