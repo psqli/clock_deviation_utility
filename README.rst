@@ -4,8 +4,7 @@ Clock deviation utility
 
 :Date: 2018-08-10
 
-Simple tool to store deviation from one clock to another
-and get the average deviation.
+Helpers to get the average deviation of a clock and fix it.
 
 The deviation is always linear. Spurious drifts (e.g.
 from network latency) should be handled gracefully.
