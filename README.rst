@@ -12,12 +12,12 @@ from network latency) should be handled gracefully.
 - deviation_history.h: ring buffer that stores the last
   N deviations. N is defined by the user.
 
-- more_than_half.c: stores the sum of all values from a
+- deviation_average.c: stores the sum of all values from a
   deviation history and, if more than half of the values
   are out of a predefined range, returns the deviation
   average.
 
-- smooth_sync.h: helpers to distribute the deviation
+- smooth_correction.h: helpers to distribute the deviation
   correction over time.
 
 
@@ -25,24 +25,24 @@ How to use
 ==========
 
 Application stores the deviations in deviation_history,
-gets the output from more_than_half, which uses
-deviation_history, and calls smooth_sync to calculate
+gets the output from deviation_average, which uses
+deviation_history, and calls smooth_correction to calculate
 the synchronization smooth::
 
 	+-------------+
-	| application |------.
-	+-------------+---.  |
-	        |         |  |
-	+-------------+   |  |
-	| smooth_sync |   |  |
-	+-------------+   |  |
-	                  |  |
-	+--------------------|--+
-	| more_than_half     |  |
-	| +-------------------+ |
-	| | deviation history | |
-	| +-------------------+ |
-	+-----------------------+
+	| application |---------.
+	+-------------+-------. |
+	        |             | |
+	+-------------------+ | |
+	| smooth_correction | | |
+	+-------------------+ | |
+	                      | |
+	+---------------------|---+
+	| deviation_average   |   |
+	| +--------------------+  |
+	| | deviation_history  |  |
+	| +--------------------+  |
+	+-------------------------+
 
 The deviation_history can be used alone (outside
-more_than_half).
+deviation_average).
