@@ -21,12 +21,12 @@
  *
  * Smooth synchronization
  *
- * Smooth sync is used to distribute a correction among
- * regularly runs of an application.
+ * Smooth correction is used to distribute a correction
+ * among regularly runs of an application.
  */
 
-#ifndef SMOOTH_SYNC_H
-#define SMOOTH_SYNC_H
+#ifndef SMOOTH_CORRECTION_H
+#define SMOOTH_CORRECTION_H
 
 /*
  * The correction is divided by 'count' and stored in
@@ -38,7 +38,7 @@
  * the skipped runs.
  */
 
-struct smooth_sync {
+struct smooth_correction {
 	/* correction = count * sum */
 	unsigned long count;
 	/* value to add for every run */
@@ -51,13 +51,13 @@ struct smooth_sync {
 };
 
 static inline void
-smooth_sync_reset(struct smooth_sync *s)
+smooth_correction_reset(struct smooth_correction *s)
 {
 	s->count = 0;
 }
 
 static void
-smooth_sync_start(struct smooth_sync *s, long deviation,
+smooth_correction_start(struct smooth_correction *s, long deviation,
                   unsigned long elapsed_runs)
 {
 	long ratio;
@@ -75,7 +75,7 @@ smooth_sync_start(struct smooth_sync *s, long deviation,
 
 	if (ratio < 2) {
 		/* TODO: it's a debug */
-		printf("smooth sync: WARNING: deviation ratio too low\n");
+		printf("smooth correction: WARNING: deviation ratio too low\n");
 
 		/* amount deviated per run */
 		ratio = labs(deviation) / elapsed_runs;
@@ -94,7 +94,7 @@ smooth_sync_start(struct smooth_sync *s, long deviation,
 }
 
 static inline int
-smooth_sync(struct smooth_sync *s)
+smooth_correction_get(struct smooth_correction *s)
 {
 	int diff;
 
@@ -104,13 +104,13 @@ smooth_sync(struct smooth_sync *s)
 	if (!s->skip) {
 		diff = s->sum;
 		/* TODO: remove debug */
-		printf("smooth sync: %d\n", diff);
+		printf("smooth correction: %d\n", diff);
 		s->count--;
 	} else {
 		if (!s->skip_step--) {
 			diff = s->sum;
 			/* TODO: remove debug */
-			printf("smooth sync: %d\n", diff);
+			printf("smooth correction: %d\n", diff);
 			s->count--;
 			s->skip_step = s->skip;
 		} else {
@@ -121,4 +121,4 @@ smooth_sync(struct smooth_sync *s)
 	return diff;
 }
 
-#endif /* SMOOTH_SYNC_H */
+#endif /* SMOOTH_CORRECTION_H */
